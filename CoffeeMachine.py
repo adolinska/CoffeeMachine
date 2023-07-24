@@ -25,7 +25,6 @@ class CoffeeMachine():
     def check_resources(self, choice):
         for item in self.menu[choice]['ingredients']:
             if self.menu[choice]['ingredients'][item] > self.res[item]:
-                #print(f"Not enough {item}")
                 return False
         
         return True
@@ -43,26 +42,24 @@ class CoffeeMachine():
     
     def is_payment_sucessful(self, choice, payment):
         if payment >= self.menu[choice]['cost']:
-            print("Transaction accepted!")
             self.profit += self.menu[choice]['cost']
             change = payment - self.menu[choice]['cost']
-            if change != 0:
-                print(f"Here is your change: {change}€.")
-            return True
+            message = f"Here is your change: {change}€." if change != 0 else ""
+            return True, message
         else:
-            print("Not sufficient money!")
-            return False
-    
+            return False, "Not sufficient money!"
+
     def get_cost(self, choice):
         cost = self.menu[choice]['cost']
         return f'The {choice} costs {cost}€.'
         
     def make_coffee(self, choice):
-        print('Processing...')
-        time.sleep(3)
+        #print('Processing...')
+        #time.sleep(3)
         for item in self.menu[choice]['ingredients']:
             self.res[item] -= self.menu[choice]['ingredients'][item]
-        print(f'Here is your {choice} ☕')
+        
+        return f'Here is your {choice} ☕'
         
     def get_coffee(self, choice):
         if self.check_resources(choice):
